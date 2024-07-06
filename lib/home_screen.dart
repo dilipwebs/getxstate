@@ -11,8 +11,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ExampleThreeController exampleThreeController =
-      Get.put(ExampleThreeController());
+
+  List<String> fruitList = ['orange','apple','mango','banana', 'grapes'];
+
+  List<String> tempFruitList = [];
 
   @override
   void initState() {
@@ -21,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('rebuild');
+    print(tempFruitList);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,25 +31,30 @@ class _HomeScreenState extends State<HomeScreen> {
           'GetX State Management Demo',
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Notification'),
-                Obx(() => Switch(
-                    value: exampleThreeController.notification.value,
-                    onChanged: (value) {
-                      exampleThreeController.notification.value = value;
-                    }))
-              ],
+      body: ListView.builder(
+        itemCount: fruitList.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              onTap: (){
+                if(tempFruitList.contains(fruitList[index].toString())){
+                  tempFruitList.remove(fruitList[index].toString());
+                }else{
+                  tempFruitList.add(fruitList[index].toString());
+                }
+                setState(() {
+                });
+              },
+              title: Text(fruitList[index].toString()),
+              trailing: Icon(Icons.favorite, color:
+                  
+                tempFruitList.contains(fruitList[index].toString()) ?
+                Colors.red : Colors.grey,
+              
+              ),
             ),
-            Obx(() => exampleThreeController.notification.value
-                ? const Text('Dummy content')
-                : const Text('No content')),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
