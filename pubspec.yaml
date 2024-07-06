@@ -19,6 +19,7 @@ dependencies:
   get: ^4.6.6
   url_strategy: ^0.2.0
   image_picker:
+  http:
 
 
 
