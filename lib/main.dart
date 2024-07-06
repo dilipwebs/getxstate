@@ -31,9 +31,9 @@ class MyApp extends StatelessWidget {
       //home: const HomeScreen(),
       getPages: [
 
-        GetPage(name: '/', page: ()=> const HomeScreen()),
-        GetPage(name: '/first-screen', page: ()=> ScreenOne()),
-        GetPage(name: '/second-screen', page: ()=>const ScreenTwo())
+        GetPage(name: '/', page: ()=> const HomeScreen(), preventDuplicates: false),
+        GetPage(name: '/first-screen', page: ()=> ScreenOne(), preventDuplicates: false),
+        GetPage(name: '/second-screen', page: ()=>const ScreenTwo(), preventDuplicates: false)
       ],
     );
   }

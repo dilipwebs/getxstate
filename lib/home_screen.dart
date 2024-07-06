@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,8 +11,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int count = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    /*Timer.periodic(Duration(seconds: 1), (timer) {
+      count++;
+      setState(() {
+
+      });
+    }); default state management rebuild the whole scaffold everytime which cost to RAM*/
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('Rebuild');
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -20,6 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
           'GetX State Management Demo',
           textAlign: TextAlign.center,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            count++;
+          });
+        },
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text('Container2'),
             ),
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Center(
             child: ListTile(
               tileColor: Colors.cyanAccent,
@@ -78,6 +103,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Text('Go to first screen'),
             ),
           ),
+          Center(
+            child: Text(count.toString()),
+          ),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: 1000,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(index.toString()),
+                    );
+                  })),
         ],
       ),
     );
