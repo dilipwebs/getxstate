@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getstate/counter_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final CounterController counterObj = Get.put(CounterController());
+
   int count = 0;
 
   @override
@@ -39,82 +42,93 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
+          /*setState(() {
             count++;
-          });
+          });*/
+          counterObj.incrementCounter();
         },
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: height * 0.05,
-            width: width * 0.5,
-            color: Colors.cyan,
-            child: const Center(
-              child: Text('Container1'),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Obx(() => Text(
+                counterObj.counter.toString(),
+                style: const TextStyle(fontSize: 50),
+              )),
             ),
-          ),
-          Container(
-            height: Get.height * 0.05,
-            width: Get.width * 0.5,
-            color: Colors.grey,
-            child: const Center(
-              child: Text('Container2'),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Center(
-            child: ListTile(
-              tileColor: Colors.cyanAccent,
-              title: Text('message'.tr),
-              subtitle: Text('name'.tr),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              OutlinedButton(
-                onPressed: () {
-                  Get.updateLocale(Locale('en', 'US'));
-                },
-                child: Text('English'),
+
+            Container(
+              height: height * 0.05,
+              width: width * 0.5,
+              color: Colors.cyan,
+              child: const Center(
+                child: Text('Container1'),
               ),
-              OutlinedButton(
-                onPressed: () {
-                  Get.updateLocale(Locale('hi', 'IN'));
-                },
-                child: Text('Hindi'),
-              ),
-            ],
-          ),
-          Center(
-            child: TextButton(
-              onPressed: () {
-                /*Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ScreenOne()),
-                );*/
-                Get.toNamed('/first-screen',
-                    arguments: ['Dilip Hignwe', 'My name']);
-              },
-              child: const Text('Go to first screen'),
             ),
-          ),
-          Center(
-            child: Text(count.toString()),
-          ),
-          Expanded(
-              child: ListView.builder(
-                  itemCount: 1000,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(index.toString()),
-                    );
-                  })),
-        ],
+            Container(
+              height: Get.height * 0.05,
+              width: Get.width * 0.5,
+              color: Colors.grey,
+              child: const Center(
+                child: Text('Container2'),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Center(
+              child: ListTile(
+                tileColor: Colors.cyanAccent,
+                title: Text('message'.tr),
+                subtitle: Text('name'.tr),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    Get.updateLocale(Locale('en', 'US'));
+                  },
+                  child: Text('English'),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    Get.updateLocale(Locale('hi', 'IN'));
+                  },
+                  child: Text('Hindi'),
+                ),
+              ],
+            ),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  /*Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ScreenOne()),
+                  );*/
+                  Get.toNamed('/first-screen',
+                      arguments: ['Dilip Hignwe', 'My name']);
+                },
+                child: const Text('Go to first screen'),
+              ),
+            ),
+
+            /* Center(
+              child: Text(count.toString()),
+            ),
+           Expanded(
+                child: ListView.builder(
+                    itemCount: 1000,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(index.toString()),
+                      );
+                    })),*/
+          ],
+        ),
       ),
     );
   }
