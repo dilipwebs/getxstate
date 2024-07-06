@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:getstate/example_three.dart';
 import 'package:getstate/favorite_controller.dart';
+import 'package:getstate/image_picker_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  FavoriteController favoriteController = Get.put(FavoriteController());
+  ImagePickerController imagePickerController = Get.put(ImagePickerController());
 
   @override
   void initState() {
@@ -27,31 +30,22 @@ class _HomeScreenState extends State<HomeScreen> {
           'GetX State Management Demo',
         ),
       ),
-      body: ListView.builder(
-        itemCount: favoriteController.fruitList.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              onTap: () {
-                if (favoriteController.tempFruitList
-                    .contains(favoriteController.fruitList[index].toString())) {
-                  favoriteController.removeFromFavorite(favoriteController.fruitList[index].toString());
-                } else {
-                  favoriteController.addToFavorite(favoriteController.fruitList[index].toString());
-                }
-              },
-              title: Text(favoriteController.fruitList[index].toString()),
-              trailing: Obx(() => Icon(
-                Icons.favorite,
-                color: favoriteController.tempFruitList.contains(
-                    favoriteController.fruitList[index].toString())
-                    ? Colors.red
-                    : Colors.grey,
-              ),)
+      body: Obx(() => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: CircleAvatar(
+              radius: 50,
+              backgroundImage: imagePickerController.imagePath.isNotEmpty ? FileImage(
+                  File(imagePickerController.imagePath.value)) : null
             ),
-          );
-        },
-      ),
+          ),
+          TextButton(onPressed: (){
+            imagePickerController.getImage();
+          }, child: const Text('Get Image'))
+        ],
+      ))
     );
   }
 }
