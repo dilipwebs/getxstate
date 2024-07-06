@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getstate/counter_controller.dart';
-import 'package:getstate/example_two.dart';
+
+import 'package:getstate/example_three.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ExampleTwoController exampleTwoController = Get.put(ExampleTwoController());
+  ExampleThreeController exampleThreeController =
+      Get.put(ExampleThreeController());
 
   @override
   void initState() {
@@ -22,31 +21,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('Rebuild');
+    print('rebuild');
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'GetX State Management Demo',
-          textAlign: TextAlign.center,
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Obx(
-              () => Container(
-                width: 200,
-                height: 200,
-                color:
-                    Colors.red.withOpacity(exampleTwoController.opacity.value),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Notification'),
+                Obx(() => Switch(
+                    value: exampleThreeController.notification.value,
+                    onChanged: (value) {
+                      exampleThreeController.notification.value = value;
+                    }))
+              ],
             ),
-            Obx(() => Slider(
-                value: exampleTwoController.opacity.value,
-                onChanged: (value) {
-                  exampleTwoController.setOpacity(value);
-                }))
+            Obx(() => exampleThreeController.notification.value
+                ? const Text('Dummy content')
+                : const Text('No content')),
           ],
         ),
       ),
